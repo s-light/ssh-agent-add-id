@@ -73,5 +73,27 @@ optional arguments:
 
 <br />
 
+## Python Script usage
+
+a very raw usage from within python scripts.
+the cli does a lot more nice touches around this..
+
+```python
+from pathlib import Path
+
+from ssh_agent_add_id.ssh_agent import SSHAgent
+
+
+def check_or_add(*, private_key="~/.ssh/your_id_file"):
+    agent = SSHAgent()
+    agent.check()
+
+    private_key_path = Path(private_key).expanduser().resolve()
+    pub_key_path = private_key_path.with_suffix(".pub")
+
+    if not agent.is_identity_stored(str(pub_key_path)):
+        agent.add_identity(str(private_key_path))
+```
+
 ## License
 This project is licensed under the terms of the MIT license.
